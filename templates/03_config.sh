@@ -1,6 +1,7 @@
 #!/bin/bash
 set -eEuo pipefail
 
+source "$(dirname "$0")/config/install.config"
 source "$(dirname "$0")/../lib/logger.sh"
 source "$(dirname "$0")/../lib/progress.sh"
 source "$(dirname "$0")/../lib/config_utils.sh"
@@ -9,7 +10,7 @@ source "$(dirname "$0")/../config/install.config"
 MODE="${1:-}"
 OS_VER=$(lsb_release -rs)
 
-# 유효한 모드 확인
+# check valid mode
 case "$MODE" in
   manager|allinone|scalar)
     log_info "config mode: $MODE"

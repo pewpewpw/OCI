@@ -1,6 +1,10 @@
 #!/bin/bash
 
-LOG_FILE="${LOG_FILE:-/var/log/connectome_install.log}"
+# 로그 파일 디렉토리 및 파일명 설정
+LOG_DIR="/app/Accessories/install/logs"
+mkdir -p "$LOG_DIR"
+
+LOG_FILE="${LOG_FILE:-$LOG_DIR/connectome_install.log}"
 
 log_info() {
   echo -e "\e[32m[INFO]\e[0m $1" | tee -a "$LOG_FILE"

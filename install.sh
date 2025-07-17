@@ -13,29 +13,32 @@ CURRENT_STEP=0
 
 main() {
   log_info "Connectome install start"
-  echo ""
+  echo "" 
 
   # 사전 검사
   bash "$SCRIPT_DIR/templates/01_install_crontab.sh" "${1:-manager}"
   CURRENT_STEP=1
 
-  bash "$SCRIPT_DIR/templates/04_install_rabbitMQ.sh"
+  #bash "$SCRIPT_DIR/templates/04_install_rabbitMQ.sh"
+  #CURRENT_STEP=2
+
+  bash "$SCRIPT_DIR/templates/02_install_utility.sh"
   CURRENT_STEP=2
 
-  bash "$SCRIPT_DIR/templates/05_install_utility.sh"
+  bash "$SCRIPT_DIR/templates/03_config.sh" "${1:-manager}"
   CURRENT_STEP=3
 
-  bash "$SCRIPT_DIR/templates/06_config.sh" "${1:-manager}"
+  bash "$SCRIPT_DIR/templates/04_install_fluent.sh"
+  CURRENT_STEP=3
+
+  bash "$SCRIPT_DIR/templates/05_install_kibana_v7.sh"
   CURRENT_STEP=4
 
-  bash "$SCRIPT_DIR/templates/07_install_kibana_v7.sh"
+  bash "$SCRIPT_DIR/templates/08_config_kafka.sh"
   CURRENT_STEP=5
 
-  bash "$SCRIPT_DIR/templates/08_config_kafka.sh"
-  CURRENT_STEP=6
-
   bash "$SCRIPT_DIR/templates/final_check.sh"
-  CURRENT_STEP=7
+  CURRENT_STEP=6
 
   log_success "Connectome install complete"
 }

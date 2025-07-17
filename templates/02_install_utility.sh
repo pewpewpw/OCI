@@ -1,17 +1,18 @@
 #!/bin/bash
 set -eEuo pipefail
 
+source "$(dirname "$0")/config/install.config"
 source "$(dirname "$0")/../lib/logger.sh"
 source "$(dirname "$0")/../lib/progress.sh"
 source "$(dirname "$0")/../config/install.config"
 
-step 1 "시스템 유틸리티 및 Python 환경 구성"
+step 1 "system utility & python environment setup"
 
 OS_VER=$(lsb_release -rs)
 ES_VER=$(cat "${INSTALL_HOME}/config/es_version" 2>/dev/null || echo "3")
 
-log_info "Ubuntu 버전: $OS_VER"
-log_info "Elasticsearch 버전: $ES_VER"
+log_info "Ubuntu version: $OS_VER"
+log_info "Elasticsearch version: $ES_VER"
 
 COMMON_PACKAGES=(
   git python3-pip python3-setuptools libmysqlclient-dev
@@ -22,10 +23,10 @@ COMMON_PACKAGES=(
 sudo apt-get update -y
 for pkg in "${COMMON_PACKAGES[@]}"; do
   if ! dpkg -s "$pkg" &>/dev/null; then
-    log_info "$pkg 설치 중..."
+    log_info "$pkg installing..."
     sudo apt-get install -y "$pkg"
   else
-    log_info "$pkg 이미 설치됨"
+    log_info "$pkg already installed"
   fi
 done
 
@@ -78,10 +79,10 @@ sudo pip install pymysql
 for rotate_file in logstash_rotate2 tomcat_rotate; do
   if [[ -f "${INSTALL_HOME}/resource/${rotate_file}" ]]; then
     sudo cp "${INSTALL_HOME}/resource/${rotate_file}" /etc/logrotate.d/
-    log_info "$rotate_file 로테이션 설정 완료"
+    log_info "$rotate_file rotation setup complete"
   fi
 done
 
 # 7. 정리
 rm -f ./erlang_solutions.asc ./rabbitmq-server*.deb
-log_success "시스템 유틸리티 및 Python 환경 구성 완료"
+log_success "system utility & python environment setup complete"
