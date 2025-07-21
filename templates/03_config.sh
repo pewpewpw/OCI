@@ -1,27 +1,35 @@
 #!/bin/bash
 set -eEuo pipefail
 
-source "$(dirname "$0")/config/install.config"
-source "$(dirname "$0")/../lib/logger.sh"
-source "$(dirname "$0")/../lib/progress.sh"
-source "$(dirname "$0")/../lib/config_utils.sh"
-source "$(dirname "$0")/../config/install.config"
+# 설치 루트 및 설정 파일 로드
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/../config/install.config"
 
-MODE="${1:-}"
-OS_VER=$(lsb_release -rs)
+if [[ -f "$CONFIG_FILE" ]]; then
+  source "$CONFIG_FILE"
+else
+  echo "[ERROR] install.config 파일이 존재하지 않습니다: $CONFIG_FILE" >&2
+  exit 1
+fi
 
-# check valid mode
+# 공통 함수 로드
+source "${INSTALL_HOME}/lib/logger.sh"
+source "${INSTALL_HOME}/lib/progress.sh"
+source "${INSTALL_HOME}/lib/config_utils.sh"
+
+MODE="${1:-manager}"
+
 case "$MODE" in
   manager|allinone|scalar)
-    log_info "config mode: $MODE"
+    log_info "설정 모드: $MODE"
     ;;
   *)
-    log_error "how to use: $0 [manager|allinone|scalar]"
+    log_error "사용법: $0 [manager|allinone|scalar]"
     exit 1
     ;;
 esac
 
-step 4 "system config start"
+step 2 "시스템 구성 시작"
 
 setup_rc_local "$MODE"
 setup_profile "$MODE"
@@ -38,4 +46,5 @@ delete_unnecessary_users
 cleanup_packages
 setup_ssh_keys
 
-log_success "system config complete"
+log_success "시스템 구성 완료"
+

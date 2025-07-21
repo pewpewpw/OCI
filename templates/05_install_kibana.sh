@@ -1,47 +1,48 @@
 #!/bin/bash
 set -eEuo pipefail
 
-source "$(dirname "$0")/config/install.config"
-source "$(dirname "$0")/../lib/logger.sh"
-source "$(dirname "$0")/../lib/progress.sh"
-source "$(dirname "$0")/../config/install.config"
+# 설치 루트 및 설정 파일 로드
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/../config/install.config"
 
-step 5 "Kibana install start"
-
-KIBANA_FILENAME="kibana-${KIBANA_VERSION}-linux-x86_64"
-KIBANA_TAR="${KIBANA_FILENAME}.tar.gz"
-KIBANA_URL="https://artifacts.elastic.co/downloads/kibana/${KIBANA_TAR}"
-KIBANA_INSTALL_DIR="/app"
-KIBANA_PATH="${KIBANA_INSTALL_DIR}/${KIBANA_FILENAME}"
-KIBANA_LINK="${KIBANA_INSTALL_DIR}/kibana"
-
-# remove existing install
-if [[ -d "$KIBANA_LINK" || -d "$KIBANA_PATH" ]]; then
-  log_warn "existing Kibana install remove"
-  sudo rm -rf "$KIBANA_LINK" "$KIBANA_PATH"
+if [[ -f "$CONFIG_FILE" ]]; then
+  source "$CONFIG_FILE"
+else
+  echo "[ERROR] install.config 파일이 존재하지 않습니다: $CONFIG_FILE" >&2
+  exit 1
 fi
 
-# download
-log_info "Kibana download: $KIBANA_URL"
-wget --no-check-certificate "$KIBANA_URL" -P /tmp
+# 공통 함수 로드
+source "${INSTALL_HOME}/lib/logger.sh"
+source "${INSTALL_HOME}/lib/progress.sh"
 
-# unpack
-log_info "unpacking..."
-sudo tar -xvf "/tmp/$KIBANA_TAR" -C "$KIBANA_INSTALL_DIR"
+step 5 "Kibana 설치 시작"
 
-# create symbolic link
-log_info "symbolic link create: /app/kibana → $KIBANA_FILENAME"
-sudo ln -s "$KIBANA_PATH" "$KIBANA_LINK"
+KIBANA_TAR="kibana-${KIBANA_VERSION}-linux-x86_64.tar.gz"
+KIBANA_DIR="/app/kibana-${KIBANA_VERSION}-linux-x86_64"
+KIBANA_LINK="/app/kibana"
+KIBANA_URL="https://artifacts.elastic.co/downloads/kibana/${KIBANA_TAR}"
 
-# copy start.sh & stop.sh
-sudo cp "$INSTALL_HOME/resource/kibana/start.sh" "$KIBANA_LINK"
-sudo cp "$INSTALL_HOME/resource/kibana/stop.sh" "$KIBANA_LINK"
+# 기존 디렉토리 삭제
+log_info "기존 Kibana 디렉토리 제거"
+sudo rm -rf "$KIBANA_LINK" "$KIBANA_DIR"
 
-# modify
-log_info "kibana.yml modify (server.host: 0.0.0.0)"
-sudo sed -i'' -r -e "/#server.host/a\server.host: \"0.0.0.0\"" "$KIBANA_LINK/config/kibana.yml"
+# Kibana 패키지 다운로드 및 압축 해제
+log_info "Kibana 다운로드 중: $KIBANA_URL"
+wget --no-check-certificate "$KIBANA_URL"
+tar -xvf "$KIBANA_TAR" -C /app
+ln -s "$KIBANA_DIR" "$KIBANA_LINK"
 
-# clean up temporary file
-rm -f "/tmp/$KIBANA_TAR"
+# 시작/중지 스크립트 복사
+cp "${INSTALL_HOME}/resource/kibana/start.sh" "$KIBANA_LINK"
+cp "${INSTALL_HOME}/resource/kibana/stop.sh" "$KIBANA_LINK"
+chmod +x "$KIBANA_LINK/start.sh" "$KIBANA_LINK/stop.sh"
 
-log_success "Kibana $KIBANA_VERSION install complete"
+# 압축 파일 삭제
+rm "$KIBANA_TAR"
+
+# Kibana 설정 변경
+sed -i'' -r -e "/#server.host/a\server.host: \"0.0.0.0\"" "$KIBANA_LINK/config/kibana.yml"
+
+log_success "Kibana ${KIBANA_VERSION} 설치 완료"
+

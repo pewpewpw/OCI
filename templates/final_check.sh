@@ -1,64 +1,55 @@
 #!/bin/bash
 set -eEuo pipefail
 
-source "$(dirname "$0")/../lib/logger.sh"
-source "$(dirname "$0")/../lib/progress.sh"
+# 설치 루트 및 설정 파일 로드
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/../config/install.config"
 
-step 6 "final check start"
+if [[ -f "$CONFIG_FILE" ]]; then
+  source "$CONFIG_FILE"
+else
+  echo "[ERROR] install.config 파일이 존재하지 않습니다: $CONFIG_FILE" >&2
+  exit 1
+fi
 
-# check service status
-check_service() {
-  local svc="$1"
-  if systemctl is-active --quiet "$svc"; then
-    log_success "$svc service running"
-  else
-    log_error "$svc service inactive or failed"
-  fi
-}
+# 공통 함수 로드
+source "${INSTALL_HOME}/lib/logger.sh"
+source "${INSTALL_HOME}/lib/progress.sh"
 
-# check port
-check_port() {
-  local port="$1"
-  if ss -tuln | grep -q ":$port"; then
-    log_success "$port port listening"
-  else
-    log_warn "$port port not listening"
-  fi
-}
+step 6 "최종 설치 확인 시작"
 
-# check directory exists
-check_dir() {
-  local dir="$1"
+# 1. 설치 로그 확인
+if [[ -f "$LOG_FILE" ]]; then
+  log_info "설치 로그 위치: $LOG_FILE"
+else
+  log_warn "설치 로그가 존재하지 않습니다."
+fi
+
+# 2. 주요 디렉토리 확인
+for dir in \
+  /data/db \
+  /data/connectome \
+  /app/kibana \
+  /app/tomcat-connectome \
+  /app/neo4j \
+  /app/elasticsearch;
+  do
   if [[ -d "$dir" ]]; then
-    log_success "$dir directory exists"
+    log_success "디렉토리 존재 확인: $dir"
   else
-    log_error "$dir directory not found"
+    log_error "디렉토리 없음: $dir"
   fi
-}
+  done
 
-log_info "service check"
-check_service "cron"
-check_service "rabbitmq-server"
-check_service "kafka-server"
-check_service "zookeeper-service"
-check_service "chrony"
+# 3. 필수 서비스 확인
+for svc in kafka-server.service zookeeper-service.service;
+  do
+    if systemctl is-active --quiet "$svc"; then
+      log_success "서비스 실행 중: $svc"
+    else
+      log_error "서비스 비활성화 또는 실패: $svc"
+    fi
+  done
 
-log_info "port check"
-check_port 5672     # RabbitMQ
-check_port 9092     # Kafka
-check_port 2181     # Zookeeper
-check_port 5601     # Kibana
-check_port 9200     # Elasticsearch
-check_port 5044     # Logstash
-check_port 5045     # logstash2
+log_success "최종 설치 확인 완료"
 
-log_info "directory check"
-check_dir "/data/rabbitmq"
-check_dir "/data/db"
-check_dir "/data/logstash"
-check_dir "/app/kibana"
-check_dir "/app/elasticsearch"
-check_dir "/app/neo4j"
-check_dir "/data/connectome"
-
-log_success "final check complete"

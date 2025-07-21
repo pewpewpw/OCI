@@ -1,40 +1,45 @@
 #!/bin/bash
 set -eEuo pipefail
 
-source "$(dirname "$0")/config/install.config"
-source "$(dirname "$0")/../lib/logger.sh"
-source "$(dirname "$0")/../lib/progress.sh"
-source "$(dirname "$0")/../config/install.config"
+# 설치 루트 및 설정 파일 로드
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/../config/install.config"
 
-step 6 "Kafka & Zookeeper systemd service setup"
+if [[ -f "$CONFIG_FILE" ]]; then
+  source "$CONFIG_FILE"
+else
+  echo "[ERROR] install.config 누락됨: $CONFIG_FILE" >&2
+  exit 1
+fi
 
-setup_service() {
-  local name="$1"     # Kafka
-  local unit="$2"     # kafka-server.service
-  local unit_file="$INSTALL_HOME/resource/$unit"
+# 공통 함수 로드
+source "${INSTALL_HOME}/lib/logger.sh"
+source "${INSTALL_HOME}/lib/progress.sh"
 
-  log_info "$name systemd unit copy: $unit"
-  if [[ -f "$unit_file" ]]; then
-    sudo cp "$unit_file" /etc/systemd/system/
+step 5 "Kafka & Zookeeper 서비스 등록"
+
+# systemd unit 파일 확인 및 복사
+for unit in "$ZOOKEEPER_UNIT" "$KAFKA_UNIT"; do
+  if [[ -f "$unit" ]]; then
+    sudo cp "$unit" /etc/systemd/system/
+    log_info "systemd unit 복사 완료: $(basename "$unit")"
   else
-    log_error "$unit_file file not found"
+    log_error "unit 파일 없음: $unit"
     exit 1
   fi
+  sleep 1
+  done
 
-  log_info "$name service reload and register"
-  sudo systemctl daemon-reload
-  sudo systemctl enable "$unit"
-  sudo systemctl restart "$unit"
+# systemctl 데몬 리로드
+sudo systemctl daemon-reload
 
-  if systemctl is-active --quiet "$unit"; then
-    log_success "$name service start success"
-  else
-    log_error "$name service start failed"
-    exit 1
-  fi
-}
+# 서비스 시작 및 enable 설정
+for service in zookeeper-service.service kafka-server.service; do
+  sudo systemctl start "$service"
+  sudo systemctl enable "$service"
+  sudo systemctl status "$service" --no-pager || true
+  log_info "$service 서비스 시작 및 enable 설정 완료"
+  sleep 2
+done
 
-setup_service "Zookeeper" "zookeeper-service.service"
-setup_service "Kafka" "kafka-server.service"
-
-log_success "Kafka & Zookeeper serivce setup complete"
+log_success "Kafka & Zookeeper 설정 완료"

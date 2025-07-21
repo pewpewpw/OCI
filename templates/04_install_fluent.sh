@@ -1,60 +1,51 @@
 #!/bin/bash
 set -eEuo pipefail
 
-source "$(dirname "$0")/config/install.config"
-source "$(dirname "$0")/../lib/logger.sh"
-source "$(dirname "$0")/../lib/progress.sh"
+# 설치 루트 및 설정 파일 로드
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/../config/install.config"
 
-step 3 "Fluentd & plugin install start"
-
-# 1. Ruby 설치 확인
-if ! command -v ruby &>/dev/null; then
-  log_info "RVM & Ruby install start"
-  curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -
-  curl -sSL https://get.rvm.io | sudo bash -s stable --ruby
+if [[ -f "$CONFIG_FILE" ]]; then
+  source "$CONFIG_FILE"
 else
-  log_info "Ruby already installed: $(ruby --version)"
-fi
-
-# 2. RVM 환경 로드
-if [[ -s "/etc/profile.d/rvm.sh" ]]; then
-  source /etc/profile.d/rvm.sh
-else
-  log_error "RVM environment not found"
+  echo "[ERROR] install.config 배포 신뢰없음: $CONFIG_FILE" >&2
   exit 1
 fi
 
-# 3. 사용자 그룹 추가
-if id -nG conse | grep -qw "rvm"; then
-  log_info "user conse already in rvm group"
+# 공통 함수 로드
+source "${INSTALL_HOME}/lib/logger.sh"
+source "${INSTALL_HOME}/lib/progress.sh"
+
+step 4 "Fluentd 및 플러그인 설치"
+
+# RVM 및 Ruby 설치
+if ! command -v rvm >/dev/null 2>&1; then
+  log_info "RVM 설치 중..."
+  command curl -sSL https://rvm.io/mpapis.asc | sudo gpg --import -
+  \curl -sSL https://get.rvm.io | sudo bash -s stable --ruby
+  log_success "RVM 설치 완료"
 else
-  sudo usermod -aG rvm conse
-  log_info "user conse added to rvm group"
+  log_info "RVM 이미 설치됨"
 fi
 
-# 4. Fluentd 및 플러그인 설치
-declare -A plugins=(
-  ["fluentd"]="~> 0.12.0"
-  ["fluent-plugin-elasticsearch"]=""
-  ["fluent-plugin-datacounter"]="0.4.5"
-  ["fluent-plugin-secure-forward"]=""
-  ["fluent-plugin-amqp2"]=""
-  ["fluent-plugin-grep"]=""
-  ["fluent-plugin-record-modifier"]=""
-)
+sleep 3
 
-for plugin in "${!plugins[@]}"; do
-  version="${plugins[$plugin]}"
-  if gem list "$plugin" -i >/dev/null; then
-    log_info "$plugin already installed"
-  else
-    if [[ -n "$version" ]]; then
-      gem install "$plugin" -v "$version" --no-document
-    else
-      gem install "$plugin" --no-document
-    fi
-    log_info "$plugin install complete"
-  fi
-done
+# Ruby 버전 확인
+/usr/local/rvm/rubies/ruby-*/bin/ruby --version || true
+sleep 3
 
-log_success "Fluentd & plugin install complete"
+# conse 유저를 rvm 그룹에 추가
+sudo adduser "$INSTALL_USER" rvm || true
+sleep 3
+
+# Fluentd 및 플러그인 설치
+log_info "Fluentd 및 플러그인 설치 중..."
+sg rvm -c "gem install fluentd -v '~> 0.12.0' --no-document"
+sg rvm -c "gem install fluent-plugin-elasticsearch --no-document"
+sg rvm -c "gem install fluent-plugin-datacounter -v 0.4.5 --no-document"
+sg rvm -c "gem install fluent-plugin-secure-forward --no-document"
+sg rvm -c "gem install fluent-plugin-amqp2 --no-document"
+sg rvm -c "gem install fluent-plugin-grep --no-document"
+sg rvm -c "gem install fluent-plugin-record-modifier --no-document"
+
+log_success "Fluentd 및 플러그인 설치 완료"
