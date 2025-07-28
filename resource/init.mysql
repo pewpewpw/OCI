@@ -1,0 +1,3 @@
+create database ConnecTome;
+grant all privileges on ConnecTome.* to root@'%' identified by 'conndb!@34';
+flush privileges;

@@ -1,0 +1,4 @@
+CREATE DATABASE IF NOT EXISTS ConnecTome;
+grant all privileges on ConnecTome.* to root@'localhost' identified by 'conndb!@34';
+grant all privileges on ConnecTome.* to root@'%' identified by 'conndb!@34';
+flush privileges;

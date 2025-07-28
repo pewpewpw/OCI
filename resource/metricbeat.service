@@ -1,0 +1,20 @@
+#2017/12/19
+# metricbeat systemd service
+#
+
+[Unit]
+Description=metricbeat
+After=network.target
+
+[Service]
+Type=simple
+Restart=always
+WorkingDirectory=/app/metricbeat
+ExecStart=/app/metricbeat/metricbeat -c /app/metricbeat/metricbeat.yml
+
+User=conse
+Group=conse
+
+
+[Install]
+WantedBy=multi-user.target

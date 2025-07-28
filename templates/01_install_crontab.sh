@@ -16,6 +16,7 @@ fi
 source "${INSTALL_HOME}/lib/logger.sh"
 source "${INSTALL_HOME}/lib/progress.sh"
 source "${INSTALL_HOME}/lib/config_utils.sh"
+source "${INSTALL_HOME}/lib/checker.sh"
 
 MODE="${1:-manager}"
 

@@ -1,0 +1,80 @@
+#all.count  dead_letter_queue  logs  logtype.count  metricbeat.debug  nic.count  notconn.debug  old_log  queue  sensor_status.debug
+/data/logstash/*.count{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}
+
+
+/data/logstash/*_failures.txt{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}
+
+
+
+/data/logstash/*.debug{
+        su conse conse
+        daily
+        dateext
+        rotate 7
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}   
+
+
+/data/logstash-2/*.count{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        missingok
+        notifempty
+        olddir /data/logstash-2/old_log
+}
+
+
+
+/data/logstash-2/*_failures.txt{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash-2/old_log
+}
+
+/data/logstash-2/*.debug{
+        su conse conse
+        daily
+        dateext
+        rotate 7
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash-2/old_log
+}

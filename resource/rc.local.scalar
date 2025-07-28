@@ -1,0 +1,27 @@
+#!/bin/sh -e
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+
+#Connectome
+su - conse -c "/app/Accessories/bin/connectome_start.sh scalar"
+
+# port redirection
+/sbin/iptables -A INPUT -p tcp -s localhost --dport 9200 -j ACCEPT
+/sbin/iptables -A INPUT -p tcp --dport 9200 -j DROP
+/sbin/iptables -A PREROUTING -t nat -p tcp --dport 80 -j REDIRECT --to-port 8082
+/sbin/iptables -A PREROUTING -t nat -p tcp --dport 443 -j REDIRECT --to-port 8443
+
+#logstash
+su - conse -c /app/logstash/run.sh
+su - conse -c /app/logstash-2/run.sh
+
+exit 0

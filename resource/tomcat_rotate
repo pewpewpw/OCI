@@ -1,0 +1,10 @@
+/app/tomcat-connectome/logs/catalina.out {
+ su conse conse
+ copytruncate
+ daily
+ rotate 30
+ compress
+ missingok
+ notifempty
+ dateext
+}

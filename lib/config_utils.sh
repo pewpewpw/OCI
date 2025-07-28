@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$(dirname "$0")/logger.sh"
+source "$(dirname "${BASH_SOURCE[0]}")/logger.sh"
 
 setup_rc_local() {
   local mode="$1"
@@ -68,7 +68,7 @@ setup_file_limits() {
 }
 
 disable_swap() {
-  cp /etc/fstab /etc/fstab.bak
+  sudo cp /etc/fstab /etc/fstab.bak
   awk '{ if ($3 == "swap") print "#" $0; else print $0 }' /etc/fstab.bak | sudo tee /etc/fstab > /dev/null
   log_info "disable swap complete (fstab)"
 }
@@ -118,8 +118,8 @@ setup_nano_syntax() {
 }
 
 delete_unnecessary_users() {
-  if [[ -x "$INSTALL_HOME/userdelete.sh" ]]; then
-    "$INSTALL_HOME/userdelete.sh"
+  if [[ -x "$INSTALL_HOME/resource/userdelete.sh" ]]; then
+    "$INSTALL_HOME/resource/userdelete.sh"
     log_info "unnecessary users complete"
   else
     log_warn "userdelete.sh can't find"

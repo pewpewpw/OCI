@@ -1,0 +1,74 @@
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m 설정 모드: manager
+[31m[ERROR][0m Crontab 파일 없음: /app/Accessories/install/OCI/resource/cron.tab
+[32m[INFO][0m 설정 모드: manager
+[36m[SUCCESS][0m Crontab 적용 완료: /app/Accessories/install/OCI/resource/cron.tab
+[32m[INFO][0m 설치한 패키지: git
+[32m[INFO][0m 설치한 패키지: python3-pip
+[32m[INFO][0m 설치한 패키지: python3-setuptools
+[32m[INFO][0m 설치한 패키지: libmysqlclient-dev
+[32m[INFO][0m 설치한 패키지: curl
+[32m[INFO][0m 설치한 패키지: jq
+[32m[INFO][0m 설치한 패키지: sqlite3
+[32m[INFO][0m 설치한 패키지: sysstat
+[32m[INFO][0m 설치한 패키지: traceroute
+[32m[INFO][0m 설치한 패키지: unzip
+[32m[INFO][0m 설치한 패키지: net-tools
+[36m[SUCCESS][0m 기본 패키지 설치 완료
+[32m[INFO][0m 설치한 패키지: git
+[32m[INFO][0m 설치한 패키지: python3-pip
+[32m[INFO][0m 설치한 패키지: python3-setuptools
+[32m[INFO][0m 설치한 패키지: libmysqlclient-dev
+[32m[INFO][0m 설치한 패키지: curl
+[32m[INFO][0m 설치한 패키지: jq
+[32m[INFO][0m 설치한 패키지: sqlite3
+[32m[INFO][0m 설치한 패키지: sysstat
+[32m[INFO][0m 설치한 패키지: traceroute
+[32m[INFO][0m 설치한 패키지: unzip
+[32m[INFO][0m 설치한 패키지: net-tools
+[36m[SUCCESS][0m 기본 패키지 설치 완료
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m disable swap complete (fstab)
+[32m[INFO][0m Log And data dir complete
+[32m[INFO][0m chrony complete
+[32m[INFO][0m nano syntax highlighter complete
+[33m[WARN][0m userdelete.sh can't find
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m disable swap complete (fstab)
+[32m[INFO][0m Log And data dir complete
+[32m[INFO][0m chrony complete
+[32m[INFO][0m nano syntax highlighter complete
+[33m[WARN][0m userdelete.sh can't find
+[32m[INFO][0m package clean up
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m disable swap complete (fstab)
+[32m[INFO][0m Log And data dir complete
+[32m[INFO][0m chrony complete
+[32m[INFO][0m nano syntax highlighter complete
+[32m[INFO][0m unnecessary users complete
+[32m[INFO][0m package clean up

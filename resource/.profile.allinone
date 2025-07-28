@@ -1,0 +1,38 @@
+# root, conse
+# ulimit -n 1048576
+if [ -e "/app/jdk1.8.0_201" ]; then
+        export JAVA_HOME=/app/jdk1.8.0_201
+elif [ -e "/app/jdk1.8.0_191" ]; then
+        export JAVA_HOME=/app/jdk1.8.0_191
+elif [ -e "/app/jdk1.8.0_181" ]; then
+        export JAVA_HOME=/app/jdk1.8.0_181
+elif [ -e "/app/jdk1.8.0_151" ]; then
+	export JAVA_HOME=/app/jdk1.8.0_151
+elif [ -e "/app/jdk1.8.0_112" ]; then
+	export JAVA_HOME=/app/jdk1.8.0_112
+else
+	export JAVA_HOME=/app/jdk1.8.0_51
+fi
+export PATH=$JAVA_HOME/bin:/app/Accessories/bin:/app/mongodb/bin:$PATH
+export EDITOR=vi
+export AGGR_MIN_MEM=512m
+export AGGR_MAX_MEM=4G
+export RULE_MIN_MEM=512m
+export RULE_MAX_MEM=4G
+
+#two
+es_version_file="/app/config/es_version"
+
+if [ -e $es_version_file ]; then
+        es_version=`cat $es_version_file`
+        if [ $es_version = "5" ] || [ $es_version = "7" ]; then
+                export ES_MEM_SIZE=16G
+        else
+                export ES_HEAP_SIZE=16G
+        fi
+else
+        export ES_HEAP_SIZE=16G
+fi
+
+export MTRX_HEAP_SIZE=10G
+export LS_HEAP_SIZE=4G

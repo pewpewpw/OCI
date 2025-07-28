@@ -1,0 +1,104 @@
+/data/logstash/*.count{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}
+
+
+/data/logstash/debug.txt{
+	su conse conse
+        daily
+        dateext
+        rotate 7
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}
+
+
+/data/logstash/*_failures.txt{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}
+
+/data/logstash/metric.debug{
+        su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}
+
+/data/logstash/nic.txt{
+        su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash/old_log
+}
+
+
+
+/data/logstash-2/*.count{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        missingok
+        notifempty
+        olddir /data/logstash-2/old_log
+}
+
+
+/data/logstash-2/debug-conn.txt{
+	su conse conse
+        daily
+        dateext
+        rotate 7
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash-2/old_log
+}
+
+/data/logstash-2/*_failures.txt{
+	su conse conse
+        daily
+        dateext
+        rotate 15
+        copytruncate
+        compress
+        delaycompress
+        missingok
+        notifempty
+        olddir /data/logstash-2/old_log
+}

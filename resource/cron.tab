@@ -1,0 +1,41 @@
+# log file aging
+0 1 * * * /usr/bin/find /app/tomcat-connectome/logs -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 1 * * * /usr/bin/find /app/tomcat-connectome/temp -follow -type f -cmin +14400 -name "*" -exec rm -f {} \;
+0 1 * * * /usr/bin/find /app/Inspector/logs -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 1 * * * /usr/bin/find /app/LogAmountStat/logs -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 1 * * * /usr/bin/find /app/cq-batch/logs -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 1 * * * /usr/bin/find /app/elasticsearch/logs_1 -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 1 * * * /usr/bin/find /app/elasticsearch/logs_2 -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/connectome -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/tomcat-connectome/temp -follow -type f -cmin +14400 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/fluent -follow -type f -cmin +14400 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/logstash -follow -type f -cmin +14400 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/logstash-2 -follow -type f -cmin +14400 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /app/edx/log -follow -type f -cmin +14400 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/logs/logDownlog/log -follow -type f -cmin +86400 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/mysqlbackup -follow -type f -cmin +10800 -name "*" -exec rm -f {} \;
+0 2 * * * /usr/bin/find /data/cq_find -follow -type f -cmin +43200 -name "*" -exec rm -f {} \;
+0 3 * * * /bin/rm /data/*.hprof
+0 3 * * 0 /bin/rm /data/logstash/debug*.txt
+0 4 * * 0 /bin/rm /data/logstash-2/debug*.txt
+# only one(master) server execution
+0 5 * * * /app/Accessories/bin/curator.sh
+10 0 * * * /app/cq-batch/run.sh
+50 23 * * * /app/Accessories/bin/cq_find.sh
+0 0 * * * /app/Accessories/bin/es_cache_clear.sh
+#*/10 0 * * * /app/Accessories/bin/heartbeat.sh
+0 3 * * * /app/aggregator/restart1.sh
+0 4 * * * /app/aggregator/restart2.sh
+#0 6 * * * /app/matrix/restart.sh
+30 5  * * * /app/Accessories/bin/mysql_backup.sh
+0 4  * * * /app/Accessories/bin/delete_logdown.sh 
+0 5  * * * /app/Accessories/bin/delete_cvnery.sh 
+0 4  * * * /app/Accessories/bin/delete_traffic_collect.sh
+0 4  * * * /app/Accessories/bin/delete_con_internal_full.sh
+#daily report download
+#0 4 * * * /app/report/start_day.sh
+#monthly report download
+#0 4 1 * * /app/report/start_month.sh
+0 2 * * * /app/nctiTrust/start.sh
+#logstash rotate
+0 0 * * * /usr/sbin/logrotate -f /app/Accessories/install/resource/logstash_rotate2

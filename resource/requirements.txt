@@ -1,0 +1,6 @@
+fluent-logger==0.3.3
+lockfile==0.9.1
+msgpack-python==0.4.1
+netifaces==0.10.4
+python-daemon==1.6
+wsgiref==0.1.2
