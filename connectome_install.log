@@ -72,3 +72,61 @@
 [32m[INFO][0m nano syntax highlighter complete
 [32m[INFO][0m unnecessary users complete
 [32m[INFO][0m package clean up
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m disable swap complete (fstab)
+[32m[INFO][0m Log And data dir complete
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m disable swap complete (fstab)
+[32m[INFO][0m Log And data dir complete
+[32m[INFO][0m chrony complete
+[32m[INFO][0m nano syntax highlighter complete
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m disable swap complete (fstab)
+[32m[INFO][0m Log And data dir complete
+[32m[INFO][0m chrony complete
+[32m[INFO][0m nano syntax highlighter complete
+[32m[INFO][0m 설정 모드: manager
+[32m[INFO][0m /etc/rc.local complete (manager)
+[32m[INFO][0m .profile complete (manager)
+[32m[INFO][0m connectome_stop complete
+[32m[INFO][0m vm.max_map_count complete
+[32m[INFO][0m /data/db dir auth complete
+[32m[INFO][0m file and PAM complete
+[32m[INFO][0m disable swap complete (fstab)
+[32m[INFO][0m Log And data dir complete
+[32m[INFO][0m chrony complete
+[32m[INFO][0m nano syntax highlighter complete
+[32m[INFO][0m unnecessary users complete
+[32m[INFO][0m package clean up
+[36m[SUCCESS][0m 시스템 구성 완료
+[32m[INFO][0m RVM 설치 중...
+[32m[INFO][0m RVM 설치 중...
+[32m[INFO][0m GPG 키 등록 중...
+[32m[INFO][0m 사용자 GPG 키 이미 등록됨: mpapis.asc
+[32m[INFO][0m 루트 GPG 키 이미 등록됨: mpapis.asc
+[32m[INFO][0m 사용자 GPG 키 이미 등록됨: pkuczynski.asc
+[32m[INFO][0m 루트 GPG 키 이미 등록됨: pkuczynski.asc
+[32m[INFO][0m RVM 설치 중...
+[32m[INFO][0m systemd unit 복사 완료: zookeeper-service.service
+[32m[INFO][0m systemd unit 복사 완료: kafka-server.service
+[32m[INFO][0m zookeeper-service.service 서비스 시작 및 enable 설정 완료
+[32m[INFO][0m kafka-server.service 서비스 시작 및 enable 설정 완료
+[36m[SUCCESS][0m Kafka & Zookeeper 설정 완료

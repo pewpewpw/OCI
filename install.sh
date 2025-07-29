@@ -69,8 +69,8 @@ main() {
   bash "$SCRIPT_DIR/templates/03_config.sh" "${1:-manager}"
   CURRENT_STEP=3
 
-  bash "$SCRIPT_DIR/templates/04_install_fluent.sh"
-  CURRENT_STEP=3
+  #bash "$SCRIPT_DIR/templates/04_install_fluent.sh"
+  #CURRENT_STEP=3
 
   bash "$SCRIPT_DIR/templates/05_install_kibana_v7.sh"
   CURRENT_STEP=4

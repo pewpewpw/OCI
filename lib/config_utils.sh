@@ -133,12 +133,3 @@ cleanup_packages() {
   log_info "package clean up"
 }
 
-setup_ssh_keys() {
-  mkdir -p /home/conse/.ssh
-  cp "$INSTALL_HOME/../.ssh/id_rsa" /home/conse/.ssh/
-  cp "$INSTALL_HOME/../.ssh/id_rsa.pub" /home/conse/.ssh/
-  chmod 600 /home/conse/.ssh/id_rsa
-  chmod 644 /home/conse/.ssh/id_rsa.pub
-  chown -R conse:conse /home/conse/.ssh
-  log_info "SSH key copy complete"
-}

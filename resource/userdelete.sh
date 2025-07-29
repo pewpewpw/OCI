@@ -1,33 +1,47 @@
 #!/bin/bash
-#2017.03.03
-#this is for 12.04, need to check 16.04 works?
+set -eEuo pipefail
 
-sudo su << EOF
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+INSTALL_HOME="$(dirname "$SCRIPT_DIR")"
 
-#delete unused user and make system user to not use ssh
-deluser games
-deluser news
-deluser irc
+source "${INSTALL_HOME}/lib/logger.sh"
 
-usermod -s nologin daemon
-usermod -s nologin bin
-usermod -s nologin sys
-usermod -s nologin sync
-usermod -s nologin man
-usermod -s nologin lp
-usermod -s nologin mail
-usermod -s nologin uucp
-usermod -s nologin proxy
-usermod -s nologin www-data
-usermod -s nologin backup
-usermod -s nologin list
-usermod -s nologin gnats
-usermod -s nologin nobody
-usermod -s nologin libuuid
+log_info "불필요 사용자 삭제 및 system 계정 nologin 설정 시작"
 
-#remove unnesecery dircetory
-rm -rf /usr/games
-rm -rf /usr/local/games
-rm /usr/share/doc/netcat-openbsd/examples/irc
+# 삭제할 사용자 목록
+USERS_TO_DELETE=("games" "news" "irc")
+for user in "${USERS_TO_DELETE[@]}"; do
+  if id "$user" &>/dev/null; then
+    sudo deluser "$user" && log_info "$user 계정 삭제 완료"
+  else
+    log_warn "$user 계정이 존재하지 않음"
+  fi
+done
 
-EOF
+# nologin 설정할 시스템 계정 목록
+SYSTEM_USERS=("daemon" "bin" "sys" "sync" "man" "lp" "mail" "uucp" "proxy" "www-data" "backup" "list" "gnats" "nobody" "libuuid")
+for user in "${SYSTEM_USERS[@]}"; do
+  if id "$user" &>/dev/null; then
+    sudo usermod -s /usr/sbin/nologin "$user" && log_info "$user 계정 nologin 설정 완료"
+  else
+    log_warn "$user 계정이 존재하지 않음"
+  fi
+done
+
+# 제거할 디렉토리 및 파일
+DIRS_TO_REMOVE=(
+  "/usr/games"
+  "/usr/local/games"
+  "/usr/share/doc/netcat-openbsd/examples/irc"
+)
+
+for path in "${DIRS_TO_REMOVE[@]}"; do
+  if [[ -e "$path" ]]; then
+    sudo rm -rf "$path" && log_info "$path 제거 완료"
+  else
+    log_warn "$path 경로 없음"
+  fi
+done
+
+log_success "사용자/디렉터리 정리 완료"
+

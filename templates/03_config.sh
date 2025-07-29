@@ -44,7 +44,6 @@ disable_ssl_for_logstash "$MODE"
 setup_nano_syntax
 delete_unnecessary_users
 cleanup_packages
-setup_ssh_keys
 
 log_success "시스템 구성 완료"
 
