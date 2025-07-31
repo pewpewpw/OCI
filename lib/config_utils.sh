@@ -51,11 +51,6 @@ setup_vm_max_map() {
   log_info "vm.max_map_count complete"
 }
 
-setup_mongodb_data_dir() {
-  sudo mkdir -p /data/db
-  sudo chown conse:conse /data/db
-  log_info "/data/db dir auth complete"
-}
 
 setup_file_limits() {
   local limits_file="/etc/security/limits.conf"
@@ -83,7 +78,8 @@ create_directories() {
     /data/cq_find \
     /app/neo4j/logs \
     /app/elasticsearch/logs; do
-    sudo mkdir -p "$dir"
+    mkdir -p "$dir"
+    chown conse:conse "$dir"
   done
 
   log_info "Log And data dir complete"
