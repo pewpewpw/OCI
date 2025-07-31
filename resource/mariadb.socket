@@ -21,4 +21,9 @@ ListenStream=@mariadb
 ListenStream=/app/mariadb/tmp/mysql.sock
 ListenStream=3306
 
+[install]
+WantedBy=sockets.target
+
+
+
 # Backlog=150

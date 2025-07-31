@@ -60,8 +60,6 @@ main() {
   bash "$SCRIPT_DIR/templates/01_install_crontab.sh" "${1:-manager}"
   CURRENT_STEP=1
 
-  #bash "$SCRIPT_DIR/templates/04_install_rabbitMQ.sh"
-  #CURRENT_STEP=2
 
   bash "$SCRIPT_DIR/templates/02_install_utility.sh"
   CURRENT_STEP=2
@@ -69,8 +67,6 @@ main() {
   bash "$SCRIPT_DIR/templates/03_config.sh" "${1:-manager}"
   CURRENT_STEP=3
 
-  #bash "$SCRIPT_DIR/templates/04_install_fluent.sh"
-  #CURRENT_STEP=3
 
   bash "$SCRIPT_DIR/templates/05_install_kibana_v7.sh"
   CURRENT_STEP=4
@@ -78,6 +74,10 @@ main() {
   bash "$SCRIPT_DIR/templates/08_config_kafka.sh"
   CURRENT_STEP=5
 
+  bash "$SCRIPT_DIR/templates/06_install_mariadb.sh"
+  CURRENT_STEP=6
+  
+  
   bash "$SCRIPT_DIR/templates/final_check.sh"
   CURRENT_STEP=6
 

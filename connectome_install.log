@@ -130,3 +130,13 @@
 [32m[INFO][0m zookeeper-service.service 서비스 시작 및 enable 설정 완료
 [32m[INFO][0m kafka-server.service 서비스 시작 및 enable 설정 완료
 [36m[SUCCESS][0m Kafka & Zookeeper 설정 완료
+[31m[ERROR][0m /app/Accessories/install/OCI/resources/mariadb.service 파일이 존재하지 않아 복사 중단
+[32m[INFO][0m mariadb.service 복사 중 → /etc/systemd/system/mariadb.service
+[32m[INFO][0m mariadb.socket 복사 중 → /etc/systemd/system/mariadb.socket
+[31m[ERROR][0m /app/Accessories/install/OCI/resource/mariadb-extra.socketq 파일이 존재하지 않아 복사 중단
+[32m[INFO][0m mariadb.service 복사 중 → /etc/systemd/system/mariadb.service
+[32m[INFO][0m mariadb.socket 복사 중 → /etc/systemd/system/mariadb.socket
+[32m[INFO][0m mariadb-extra.socket 복사 중 → /etc/systemd/system/mariadb-extra.socket
+[32m[INFO][0m systemd 데몬 리로드
+[32m[INFO][0m mariadb 관련 서비스 enable 및 start
+[36m[SUCCESS][0m ✅ mariadb.service 정상 구동 중

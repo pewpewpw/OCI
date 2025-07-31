@@ -18,3 +18,5 @@ FileDescriptorName=extra
 ListenStream=@mariadb-extra
 ListenStream=/app/mariadb/tmp/mysql.sock-extra
 
+[install]
+WantedBy=sockets.target
